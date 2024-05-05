@@ -43,10 +43,10 @@ yarn build
 
 ## Описание и UML
 
-!(классы проекта)[./src/images/descriptionProject.png]
+![Описание проекта](./src/images/descriptionProject.png)
 
-!(классы проекта)[./src/images/classesProject.png]
+![классы проекта](./src/images/classesProject.png)
 
-!(классы проекта)[./src/images/collectionProject.png]
+![данные в проекте](./src/images/collectionProject.png)
 
-!(классы проекта)[./src/images/levels.png]
+![уровни представления проекта](./src/images/levels.png)
