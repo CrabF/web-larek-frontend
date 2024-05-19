@@ -45,11 +45,15 @@ yarn build
 
 #### Архитектура приложения поделена на 3 слоя:
 
-Слой данных Model - хранит данные состояния приложения и бизнес-логику. Слой взаимодействует с классами AppState и Product. Класс Product типизирован и находится в types/index.ts IProductItem.
+Слой данных Model - хранит данные состояния приложения и бизнес-логику. Слой взаимодействует с классами AppData и Product. Класс Product типизирован и находится в types/index.ts IProductItem.
 
 Слой отображения View - занимается рендером карточек, модалок, форм и прочих визуальных элементов. Слой взаимодействует с классами Card, Modal, Form, SuccessfulOrder, Basket. 
 
 Слой коммуникации Presenter - является связующим для слоя данных и отображения. Слой предоставляет и обрабатывает данные, получаемые от сервера. Работает с классами API и EventEmitter.
+
+#### Описание классов
+
+
 
 #### Типы данных в types/index.ts
 
@@ -79,7 +83,7 @@ export interface IUserInfo {
   address: string;
   email: string;
   phone: string;
-  payment: 'cash' | 'card'
+  payment: 'online' | 'cash'
 }
 
 // Интерфейс для успешного заказа
@@ -90,6 +94,12 @@ export interface ISuccessfulOrder {
 }
 
 ```
+
+#### Состояния приложения
+
+
+
+#### Дополнительные схемы
 
 ![данные в проекте](./src/images/collectionProject.png)
 

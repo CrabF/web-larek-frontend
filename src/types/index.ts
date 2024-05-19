@@ -9,14 +9,14 @@ export interface IProductItem {
 
 export interface IProductList {
   total: number;
-  items: string[]
+  items: IProductItem[]
 }
 
 export interface IUserInfo {
   address: string;
   email: string;
   phone: string;
-  payment: 'cash' | 'card'
+  payment: 'online' | 'cash'
 }
 
 export interface ISuccessfulOrder {
