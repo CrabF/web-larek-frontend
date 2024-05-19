@@ -91,10 +91,6 @@ export interface ISuccessfulOrder {
 
 ```
 
-![Описание проекта](./src/images/descriptionProject.png)
-
-![классы проекта](./src/images/classesProject.png)
-
 ![данные в проекте](./src/images/collectionProject.png)
 
 ![уровни представления проекта](./src/images/levels.png)
