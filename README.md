@@ -43,16 +43,53 @@ yarn build
 
 ## Описание и UML
 
-Архитектура приложения поделена на 3 слоя:
+#### Архитектура приложения поделена на 3 слоя:
 
-Слой данных Model - хранит данные состояния приложения и бизнес-логику. Слой взаимодействует с классами AppState и Product. Перечисленные классы типизированы, используют интерфейсы IAppState и IProduct.
-
+Слой данных Model - хранит данные состояния приложения и бизнес-логику. Слой взаимодействует с классами AppState и Product. Класс Product типизирован и находится в types/index.ts IProductItem.
 
 Слой отображения View - занимается рендером карточек, модалок, форм и прочих визуальных элементов. Слой взаимодействует с классами Card, Modal, Form, SuccessfulOrder, Basket. 
 
 Слой коммуникации Presenter - является связующим для слоя данных и отображения. Слой предоставляет и обрабатывает данные, получаемые от сервера. Работает с классами API и EventEmitter.
 
+#### Типы данных в types/index.ts
 
+```typescript
+
+// Интерфейс для отдельной карточки
+
+export interface IProductItem {
+  id: string;
+  description: string;
+  image: string;
+  title: string;
+  category: string;
+  price: number | null
+}
+
+// Интерфейс для корзины или главной страницы
+
+export interface IProductList {
+  total: number;
+  items: string[]
+}
+
+// Интерфейс для заполнения форм пользователем
+
+export interface IUserInfo {
+  address: string;
+  email: string;
+  phone: string;
+  payment: 'cash' | 'card'
+}
+
+// Интерфейс для успешного заказа
+
+export interface ISuccessfulOrder {
+  id: string;
+  total: number
+}
+
+```
 
 ![Описание проекта](./src/images/descriptionProject.png)
 

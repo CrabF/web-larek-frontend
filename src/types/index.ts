@@ -1,4 +1,4 @@
-export interface ICard {
+export interface IProductItem {
   id: string;
   description: string;
   image: string;
@@ -7,16 +7,16 @@ export interface ICard {
   price: number | null
 }
 
+export interface IProductList {
+  total: number;
+  items: string[]
+}
+
 export interface IUserInfo {
-  adress: string;
+  address: string;
   email: string;
   phone: string;
   payment: 'cash' | 'card'
-}
-
-export interface IBasket {
-  total: number;
-  items: string[]
 }
 
 export interface ISuccessfulOrder {
