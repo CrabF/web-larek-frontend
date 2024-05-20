@@ -12,11 +12,13 @@ export interface IProductList {
   items: IProductItem[]
 }
 
-export interface IUserInfo {
+export interface IUserOrder {
   address: string;
   email: string;
   phone: string;
-  payment: 'online' | 'cash'
+  payment: 'online' | 'cash',
+  total: number;
+  items: IProductItem[]
 }
 
 export interface ISuccessfulOrder {

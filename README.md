@@ -74,16 +74,18 @@ export interface IProductItem {
 
 export interface IProductList {
   total: number;
-  items: string[]
+  items: IProductItem[]
 }
 
 // Интерфейс для заполнения форм пользователем
 
-export interface IUserInfo {
+export interface IUserOrder {
   address: string;
   email: string;
   phone: string;
-  payment: 'online' | 'cash'
+  payment: 'online' | 'cash',
+  total: number;
+  items: IProductItem[]
 }
 
 // Интерфейс для успешного заказа
@@ -104,3 +106,5 @@ export interface ISuccessfulOrder {
 ![данные в проекте](./src/images/collectionProject.png)
 
 ![уровни представления проекта](./src/images/levels.png)
+
+![Основные действия](./src/images/actions.png)
