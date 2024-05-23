@@ -4,7 +4,8 @@ export interface IProductItem {
   image: string;
   title: string;
   category: string;
-  price: number | null
+  price: number | null;
+  selected?: boolean
 }
 
 export interface IProductList {
@@ -12,7 +13,7 @@ export interface IProductList {
   items: IProductItem[]
 }
 
-export interface IUserOrder {
+export interface IOrder {
   address: string;
   email: string;
   phone: string;
@@ -21,7 +22,7 @@ export interface IUserOrder {
   items: IProductItem[]
 }
 
-export interface ISuccessfulOrder {
+export interface IOrderSuccess {
   id: string;
   total: number
 }
