@@ -108,3 +108,4 @@ export interface ISuccessfulOrder {
 ![уровни представления проекта](./src/images/levels.png)
 
 ![Основные действия](./src/images/actions.png)
+
