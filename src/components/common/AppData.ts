@@ -9,9 +9,7 @@ export interface IAppData{
   getTotal(): number;
   getOrder(): void;
   removeFromOrder(id: string): void;
-  addToOrder(id: string): void;
-  validateForm(form: HTMLElement): void;
-  successOrder(order: IOrder): IOrderSuccess;
+  addToOrder(card: IProductItem): void;
 }
 
 export class AppData implements IAppData{
@@ -48,13 +46,13 @@ export class AppData implements IAppData{
 
   removeFromOrder(id: string){
      this.items = this.items.filter((item)=>{
-      console.log(item)
       return item.id !== id
     })
   }
 
-
-  addToOrder(id: string): void;
-  validateForm(form: HTMLElement): void;
-  successOrder(order: IOrder): IOrderSuccess;
+  addToOrder(card: IProductItem){
+    if(card.selected === false || undefined){
+      this.items.push(card)
+    }
+  }
 }

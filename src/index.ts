@@ -94,10 +94,5 @@ const info =
 const appdata = new AppData();
 appdata.setCards(info)
 
-// console.log(appdata.getCards())
-
-appdata.removeFromOrder('54df7dcb-1213-4b3c-ab61-92ed5f845535')
-// console.log(appdata.getCards())
-
 
 console.log(appdata.getTotal())
