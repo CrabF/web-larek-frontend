@@ -1,5 +1,7 @@
 import './scss/styles.scss';
 import {AppData} from './components/common/AppData';
+import {LarekApi} from './components/common/LarekApi';
+import{Api} from './components/base/api';
 
 
 const info = 
@@ -95,4 +97,11 @@ const appdata = new AppData();
 appdata.setCards(info)
 
 
-console.log(appdata.getTotal())
+
+
+
+const bobApi = new LarekApi('https://larek-api.nomoreparties.co/api/weblarek')
+
+bobApi.getProductList().then((res)=>{
+  console.log(res)
+})
