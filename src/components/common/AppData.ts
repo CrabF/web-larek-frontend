@@ -2,7 +2,7 @@ import { IOrder, IOrderSuccess, IProductItem, IProductList } from "../../types";
 import { IEvents } from "../base/events";
 
 
-export interface IAppData{
+interface IAppData{
   getCards(): IProductItem[];
   setCards(items: IProductItem[]): void;
   getCard(id: string): IProductItem | undefined;
@@ -14,15 +14,15 @@ export interface IAppData{
 
 export class AppData implements IAppData{
   protected items: IProductItem[]=[];
-  // constructor(protected events: IEvents){}
-  constructor(){}
+  constructor(protected events: IEvents){}
 
   getCards() {
     return this.items;
   }
 
   setCards(items: IProductItem[]){
-    return this.items = items;
+    this.items = items;
+    this.events.emit('cards: changed', this.items);
   }
 
   getCard(id: string) {

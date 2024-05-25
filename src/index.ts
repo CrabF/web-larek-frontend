@@ -97,13 +97,22 @@ const appdata = new AppData();
 appdata.setCards(info)
 
 
-
-
-
 const bobApi = new LarekApi('https://larek-api.nomoreparties.co/api/weblarek')
 
 bobApi.getProductList().then((res)=>{
   console.log(res)
 })
 
-bobApi.getProductItem('/90973ae5-285c-4b6f-a6d0-65d1d760b102')
+let m = bobApi.getProductItem('/90973ae5-285c-4b6f-a6d0-65d1d760b102').then(res => console.log(res))
+
+
+bobApi.postOrder({
+  'payment': 'cash',
+  'email': 'sss',
+  'address': 'll',
+  'phone': 'ddd',
+  'total': 1000,
+  'items': [
+    '90973ae5-285c-4b6f-a6d0-65d1d760b102'
+  ]
+})
