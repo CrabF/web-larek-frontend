@@ -3,8 +3,8 @@ import { Api, ApiListResponse } from '../base/api'
 
 
 interface ILarekApi {
-  getProductItem: (id: string) => Promise<IProductItem>;
   getProductList: () => Promise<IProductList>; 
+  getProductItem: (id: string) => Promise<IProductItem>;
   postOrder: (data: IOrder)=> Promise<ISuccessfulOrder>
 }
 
