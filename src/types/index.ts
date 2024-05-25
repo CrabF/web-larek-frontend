@@ -19,7 +19,7 @@ export interface IOrder {
   phone: string;
   payment: 'online' | 'cash',
   total: number;
-  items: IProductItem[]
+  items: string[]
 }
 
 export interface IOrderSuccess {
