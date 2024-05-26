@@ -5,15 +5,31 @@ import { IEvents } from "../base/events";
 interface IAppData{
   getCards(): IProductItem[];
   setCards(items: IProductItem[]): void;
-  getCard(id: string): IProductItem | undefined;
+  initModal(card: IProductItem): void;
   getTotal(): number;
-  getOrder(): void;
-  removeFromOrder(id: string): void;
-  addToOrder(card: IProductItem): void;
+  addToBasket(card: IProductItem): void;
+  removeFromBasket(card: IProductItem): void;
+  clearBasket(): void;
+  validateOrder():void;
+  successOrder():void;
 }
 
 export class AppData implements IAppData{
   protected items: IProductItem[]=[];
+  protected order: IOrder = {
+    address: '',
+    email: '',
+    phone: '',
+    payment: 'online',
+    total: 0,
+    items: []
+  }
+  protected basket: IProductList = {
+    total: 0,
+    items: []
+  }
+  protected modal: IProductItem = null;
+
   constructor(protected events: IEvents){}
 
   getCards() {
@@ -22,37 +38,48 @@ export class AppData implements IAppData{
 
   setCards(items: IProductItem[]){
     this.items = items;
-    this.events.emit('cards: changed', this.items);
+    this.events.emit('cards:changed', this.items);
   }
 
-  getCard(id: string) {
-    return this.items.find((item)=>{
-     return item.id === id
+  initModal(card: IProductItem) {
+    this.items.find((item)=>{
+     if(item.id === card.id){
+      return this.modal = card
+     }
     })
-  }
+    this.events.emit('modal:open', this.modal);
+  } 
 
   getTotal(){
     return this.items.length
   }
 
-  getOrder() {
-     this.items.filter((item, index, arr)=>{
-      if(item.selected){
-        arr.push(item)
-      }
-      return arr
-    })
+  addToBasket(card: IProductItem) {
+    card.selected = true;
+    this.basket.items.push(card)
+    this.basket.total += card.price;
+    this.events.emit('basket:changed', this.basket);
   }
 
-  removeFromOrder(id: string){
-     this.items = this.items.filter((item)=>{
-      return item.id !== id
+  removeFromBasket(card: IProductItem){
+    card.selected = false;
+    this.basket.items = this.basket.items.filter((item)=>{
+      return item.id !== card.id
     })
+    this.events.emit('basket:changed', this.basket);
   }
 
-  addToOrder(card: IProductItem){
-    if(card.selected === false || undefined){
-      this.items.push(card)
-    }
+  clearBasket(){
+    this.basket.items = [];
+    this.basket.total = 0;
+    this.events.emit('basket:changed', this.basket);
+  }
+
+  validateOrder() {
+
+  }
+
+  successOrder(){
+
   }
 }
