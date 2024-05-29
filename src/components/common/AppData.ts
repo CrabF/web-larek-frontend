@@ -30,7 +30,8 @@ export class AppData implements IAppData{
   }
   protected modal: IProductItem = null;
 
-  constructor(protected events: IEvents){}
+  // constructor(protected events: IEvents){}
+  constructor(){}
 
   getCards() {
     return this.items;
@@ -38,7 +39,7 @@ export class AppData implements IAppData{
 
   setCards(items: IProductItem[]){
     this.items = items;
-    this.events.emit('cards:changed', this.items);
+    // this.events.emit('cards:changed', this.items);
   }
 
   initModal(card: IProductItem) {
@@ -47,7 +48,7 @@ export class AppData implements IAppData{
       return this.modal = card
      }
     })
-    this.events.emit('modal:open', this.modal);
+    // this.events.emit('modal:open', this.modal);
   } 
 
   getTotal(){
@@ -58,7 +59,7 @@ export class AppData implements IAppData{
     card.selected = true;
     this.basket.items.push(card)
     this.basket.total += card.price;
-    this.events.emit('basket:changed', this.basket);
+    // this.events.emit('basket:changed', this.basket);
   }
 
   removeFromBasket(card: IProductItem){
@@ -66,13 +67,13 @@ export class AppData implements IAppData{
     this.basket.items = this.basket.items.filter((item)=>{
       return item.id !== card.id
     })
-    this.events.emit('basket:changed', this.basket);
+    // this.events.emit('basket:changed', this.basket);
   }
 
   clearBasket(){
     this.basket.items = [];
     this.basket.total = 0;
-    this.events.emit('basket:changed', this.basket);
+    // this.events.emit('basket:changed', this.basket);
   }
 
   validateOrder() {
