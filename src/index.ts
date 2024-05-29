@@ -4,40 +4,49 @@ import {LarekApi} from './components/common/LarekApi';
 import { EventEmitter } from './components/base/events'
 
 import {API_URL as Api, CDN_URL as Content} from './utils/constants'
+import { Page } from './components/common/Page';
 
-console.log(Content)
+// console.log(Content)
 
-const appdata = new AppData();
-const info = new LarekApi(Api);
-const content = new LarekApi(Content);
+// const appdata = new AppData();
+// const info = new LarekApi(Api);
+// const content = new LarekApi(Content);
 
-info.getProductList().then((res)=>{
-  appdata.setCards(res.items)
-  console.log(appdata)
+// info.getProductList().then((res)=>{
+//   appdata.setCards(res.items)
+//   console.log(appdata)
+// })
+
+// content.get('').then((res)=> console.log(res))
+
+
+
+// bobApi.getProductList().then((res)=>{
+//   console.log(res)
+// })
+
+// let m = bobApi.getProductItem('/90973ae5-285c-4b6f-a6d0-65d1d760b102').then(res => console.log(res))
+
+
+// bobApi.postOrder({
+//   'payment': 'cash',
+//   'email': 'sss',
+//   'address': 'll',
+//   'phone': 'ddd',
+//   'total': 1000,
+//   'items': [
+//     '90973ae5-285c-4b6f-a6d0-65d1d760b102'
+//   ]
+// })
+
+const container = document.querySelector('.page');
+console.log(container)
+const page = new Page(container as HTMLElement)
+
+page.render({
+  counter: 10,
+  catalog: []
 })
-
-content.get('').then((res)=> console.log(res))
-
-
-
-bobApi.getProductList().then((res)=>{
-  console.log(res)
-})
-
-let m = bobApi.getProductItem('/90973ae5-285c-4b6f-a6d0-65d1d760b102').then(res => console.log(res))
-
-
-bobApi.postOrder({
-  'payment': 'cash',
-  'email': 'sss',
-  'address': 'll',
-  'phone': 'ddd',
-  'total': 1000,
-  'items': [
-    '90973ae5-285c-4b6f-a6d0-65d1d760b102'
-  ]
-})
-
 
 
 
