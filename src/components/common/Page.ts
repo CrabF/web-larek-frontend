@@ -31,5 +31,3 @@ export class Page extends Component<IPage> {
       this.gallery.replaceChildren(...items)
     }
   }
-
- 

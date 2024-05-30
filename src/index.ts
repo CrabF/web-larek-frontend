@@ -5,6 +5,8 @@ import { EventEmitter } from './components/base/events'
 
 import {API_URL as Api, CDN_URL as Content} from './utils/constants'
 import { Page } from './components/common/Page';
+import { Card } from './components/common/Card';
+import { cloneTemplate } from './utils/utils';
 
 // console.log(Content)
 
@@ -39,14 +41,99 @@ import { Page } from './components/common/Page';
 //   ]
 // })
 
+
+
+
+const events = new EventEmitter();
 const container = document.querySelector('.page');
-console.log(container)
 const page = new Page(container as HTMLElement)
 
-page.render({
-  counter: 10,
-  catalog: []
+
+const model = new AppData(events)
+
+
+
+const api = new LarekApi(Api);
+
+
+
+
+api.getProductList()
+.then((res)=>{ 
+   model.setCards(res.items)
 })
+.catch((err)=> {
+  console.log(err)
+})
+
+
+events.on('cards:changed', ()=>{
+  const cardsArray = model.getCards()
+  .map((item)=>{
+
+    const card = new Card(cloneTemplate('#card-catalog'));
+
+    return card.render(item)
+  })
+  page.render({
+    counter: 10,
+    catalog: cardsArray
+  })
+})
+
+
+
+
+
+// async function fetchAndSetCards() {
+//   try {
+//     const res = await api.getProductList();
+//     model.setCards(res.items);
+//     console.log('Cards set successfully');
+//     console.log(model.getCards())
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
+
+// fetchAndSetCards();
+
+
+
+
+
+
+
+
+
+// api.getProductList()
+// .then((res) => { 
+//   console.log(res)
+//   async (model.setCards(res.items));
+//    console.log(`проверка сет кардс ${b}`)
+//    await const cardsArray = model.getCards().map((item) => {
+//     //  console.log(item);
+//      const card = new Card(cloneTemplate('#card-catalog'));
+//     //  console.log(card)
+//      return card.render(item);
+//    });
+//    console.log(cardsArray)
+//    page.render({
+//     counter: 10,
+//     catalog: cardsArray
+//   })
+//  })
+// .catch((err) => {
+//    console.log(err);
+//  });
+
+
+
+
+// page.render({
+//   counter: 10,
+//   catalog: cardsArray
+// })
 
 
 
