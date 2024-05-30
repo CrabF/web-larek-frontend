@@ -53,14 +53,14 @@ const model = new AppData(events)
 
 
 
-const api = new LarekApi(Api);
+const api = new LarekApi(Api, Content);
 
 
 
 
 api.getProductList()
 .then((res)=>{ 
-   model.setCards(res.items)
+   model.setCards(res)
 })
 .catch((err)=> {
   console.log(err)
@@ -76,7 +76,7 @@ events.on('cards:changed', ()=>{
     return card.render(item)
   })
   page.render({
-    counter: 10,
+    counter: model.getTotal(),
     catalog: cardsArray
   })
 })

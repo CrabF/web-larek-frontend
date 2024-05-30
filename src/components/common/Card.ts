@@ -34,7 +34,7 @@ export class Card extends Component<IProductItem>  {
   }
 
   set image(img: string){
-    this.setImage(this.cardImage, img, this.cardTitle as string)
+    this.setImage(this.cardImage, img, img)
   }
 
   set title(text: string){

@@ -6,14 +6,14 @@ interface IBasket {
 }
 
 export class Basket extends Component<IBasket> {
-  constructor(container: HTMLElement){
-    super(container);
-    this.button 
-    this.total
-    this.closeButton
-    this.items
-  }
+  // constructor(container: HTMLElement){
+  //   super(container);
+  //   this.button 
+  //   this.total
+  //   this.closeButton
+  //   this.items
+  // }
 
-  set items
-  set total
+  // set items
+  // set total
 }
