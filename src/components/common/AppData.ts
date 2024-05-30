@@ -15,8 +15,8 @@ interface IAppData{
 }
 
 export class AppData implements IAppData{
-   items: IProductItem[]=[];
-   order: IOrder = {
+  protected items: IProductItem[]=[];
+  protected order: IOrder = {
     address: '',
     email: '',
     phone: '',
@@ -31,7 +31,6 @@ export class AppData implements IAppData{
   protected modal: IProductItem = null;
 
   constructor(protected events: IEvents){}
-  // constructor(){}
 
   getCards() {
     return this.items;

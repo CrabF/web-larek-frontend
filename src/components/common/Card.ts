@@ -23,7 +23,7 @@ export class Card extends Component<IProductItem>  {
     this.cardDescription = container.querySelector('.card__text');
     this.cardImage = container.querySelector('.card__image');
     this.cardTitle = ensureElement<HTMLElement>('.card__title', container);
-    this.cardCategory = document.querySelector('.card__category');
+    this.cardCategory = container.querySelector('.card__category');
     this.cardPrice = ensureElement<HTMLElement>('.card__price', container);
     this.cardButton = container.querySelector('.card__button');
     this.cardImage = container.querySelector('.card__image')
@@ -46,7 +46,8 @@ export class Card extends Component<IProductItem>  {
   }
 
   set price(value: number){
-    this.setText(this.cardCategory, value)
+    // String(value).replace()
+    this.setText(this.cardPrice, (value) ? `${value}  синапсов`: 'Бесценно')
   }
 
   set button(text: string){
