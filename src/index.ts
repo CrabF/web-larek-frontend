@@ -10,22 +10,19 @@ import { cloneTemplate } from './utils/utils';
 import { IProductItem } from './types';
 import { Modal } from './components/common/Modal';
 
-const events = new EventEmitter();
+//Поиск нужных элементов
 const container = document.querySelector('.page');
 const modalContainer = document.querySelector('#modal-container')
+
+//Добавление наследников основных классов
+const events = new EventEmitter();
 const page = new Page(container as HTMLElement, events);
 const modal = new Modal(modalContainer as HTMLElement, events)
-
-
 const model = new AppData(events)
-
-
-
 const api = new LarekApi(Api, Content);
 
 
-
-
+//Получение массива с сервера
 api.getProductList()
 .then((res)=>{ 
    model.setCards(res)
@@ -34,14 +31,16 @@ api.getProductList()
   console.log(err)
 })
 
-
-
-
-
+//Обработка карточек с сервера. 
+//Получили массив, создали под каждый объект из массива карточку и навесили обработчик на каждую карточку
 events.on('cards:changed', (items: IProductItem[])=>{
   const cardsArray = items
   .map((item)=>{
-    const card = new Card(cloneTemplate('#card-catalog'));
+    const card = new Card(cloneTemplate('#card-catalog'), {
+      func: ()=>{
+        events.emit('card:selected', item); 
+      }
+    });
     return card.render(item)
   })
   page.render({
@@ -50,40 +49,8 @@ events.on('cards:changed', (items: IProductItem[])=>{
   })
 })
 
-// events.on('basket:open', ()=>{
-
-// })
-
-events.on('modal:open', (item)=>{
- 
+events.on('card:selected', (item: IProductItem)=>{
+  model.setItemPreview(item);
+  modal.open()
+  console.log('11')
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
