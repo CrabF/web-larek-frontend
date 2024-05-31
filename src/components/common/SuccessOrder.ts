@@ -19,7 +19,7 @@ export class SuccessOrder extends Component<ISuccessOrder>{
     this.successDescription = ensureElement('.order-success__description');
     this.closeButton = ensureElement('.order-success__close');
 
-    if(action.func){
+    if(action?.func){
       this.closeButton.addEventListener('click', action.func)
     }
   }

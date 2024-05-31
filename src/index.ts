@@ -7,46 +7,14 @@ import {API_URL as Api, CDN_URL as Content} from './utils/constants'
 import { Page } from './components/common/Page';
 import { Card } from './components/common/Card';
 import { cloneTemplate } from './utils/utils';
-
-// console.log(Content)
-
-// const appdata = new AppData();
-// const info = new LarekApi(Api);
-// const content = new LarekApi(Content);
-
-// info.getProductList().then((res)=>{
-//   appdata.setCards(res.items)
-//   console.log(appdata)
-// })
-
-// content.get('').then((res)=> console.log(res))
-
-
-
-// bobApi.getProductList().then((res)=>{
-//   console.log(res)
-// })
-
-// let m = bobApi.getProductItem('/90973ae5-285c-4b6f-a6d0-65d1d760b102').then(res => console.log(res))
-
-
-// bobApi.postOrder({
-//   'payment': 'cash',
-//   'email': 'sss',
-//   'address': 'll',
-//   'phone': 'ddd',
-//   'total': 1000,
-//   'items': [
-//     '90973ae5-285c-4b6f-a6d0-65d1d760b102'
-//   ]
-// })
-
-
-
+import { IProductItem } from './types';
+import { Modal } from './components/common/Modal';
 
 const events = new EventEmitter();
 const container = document.querySelector('.page');
-const page = new Page(container as HTMLElement)
+const modalContainer = document.querySelector('#modal-container')
+const page = new Page(container as HTMLElement, events);
+const modal = new Modal(modalContainer as HTMLElement, events)
 
 
 const model = new AppData(events)
@@ -67,12 +35,13 @@ api.getProductList()
 })
 
 
-events.on('cards:changed', ()=>{
-  const cardsArray = model.getCards()
+
+
+
+events.on('cards:changed', (items: IProductItem[])=>{
+  const cardsArray = items
   .map((item)=>{
-
     const card = new Card(cloneTemplate('#card-catalog'));
-
     return card.render(item)
   })
   page.render({
@@ -81,60 +50,13 @@ events.on('cards:changed', ()=>{
   })
 })
 
+// events.on('basket:open', ()=>{
 
-
-
-
-// async function fetchAndSetCards() {
-//   try {
-//     const res = await api.getProductList();
-//     model.setCards(res.items);
-//     console.log('Cards set successfully');
-//     console.log(model.getCards())
-//   } catch (err) {
-//     console.error(err);
-//   }
-// }
-
-// fetchAndSetCards();
-
-
-
-
-
-
-
-
-
-// api.getProductList()
-// .then((res) => { 
-//   console.log(res)
-//   async (model.setCards(res.items));
-//    console.log(`проверка сет кардс ${b}`)
-//    await const cardsArray = model.getCards().map((item) => {
-//     //  console.log(item);
-//      const card = new Card(cloneTemplate('#card-catalog'));
-//     //  console.log(card)
-//      return card.render(item);
-//    });
-//    console.log(cardsArray)
-//    page.render({
-//     counter: 10,
-//     catalog: cardsArray
-//   })
-//  })
-// .catch((err) => {
-//    console.log(err);
-//  });
-
-
-
-
-// page.render({
-//   counter: 10,
-//   catalog: cardsArray
 // })
 
+events.on('modal:open', (item)=>{
+ 
+})
 
 
 
@@ -165,99 +87,3 @@ events.on('cards:changed', ()=>{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-// const info = 
-//   [
-//       {
-//           "id": "854cef69-976d-4c2a-a18c-2aa45046c390",
-//           "description": "Если планируете решать задачи в тренажёре, берите два.",
-//           "image": "/5_Dots.svg",
-//           "title": "+1 час в сутках",
-//           "category": "софт-скил",
-//           "price": 750
-//       },
-//       {
-//           "id": "c101ab44-ed99-4a54-990d-47aa2bb4e7d9",
-//           "description": "Лизните этот леденец, чтобы мгновенно запоминать и узнавать любой цветовой код CSS.",
-//           "image": "/Shell.svg",
-//           "title": "HEX-леденец",
-//           "category": "другое",
-//           "price": 1450
-//       },
-//       {
-//           "id": "b06cde61-912f-4663-9751-09956c0eed67",
-//           "description": "Будет стоять над душой и не давать прокрастинировать.",
-//           "image": "/Asterisk_2.svg",
-//           "title": "Мамка-таймер",
-//           "category": "софт-скил",
-//           "price": null
-//       },
-//       {
-//           "id": "412bcf81-7e75-4e70-bdb9-d3c73c9803b7",
-//           "description": "Откройте эти куки, чтобы узнать, какой фреймворк вы должны изучить дальше.",
-//           "image": "/Soft_Flower.svg",
-//           "title": "Фреймворк куки судьбы",
-//           "category": "дополнительное",
-//           "price": 2500
-//       },
-//       {
-//           "id": "1c521d84-c48d-48fa-8cfb-9d911fa515fd",
-//           "description": "Если орёт кот, нажмите кнопку.",
-//           "image": "/mute-cat.svg",
-//           "title": "Кнопка «Замьютить кота»",
-//           "category": "кнопка",
-//           "price": 2000
-//       },
-//       {
-//           "id": "f3867296-45c7-4603-bd34-29cea3a061d5",
-//           "description": "Чтобы научиться правильно называть модификаторы, без этого не обойтись.",
-//           "image": "Pill.svg",
-//           "title": "БЭМ-пилюлька",
-//           "category": "другое",
-//           "price": 1500
-//       },
-//       {
-//           "id": "54df7dcb-1213-4b3c-ab61-92ed5f845535",
-//           "description": "Измените локацию для поиска работы.",
-//           "image": "/Polygon.svg",
-//           "title": "Портативный телепорт",
-//           "category": "другое",
-//           "price": 100000
-//       },
-//       {
-//           "id": "6a834fb8-350a-440c-ab55-d0e9b959b6e3",
-//           "description": "Даст время для изучения React, ООП и бэкенда",
-//           "image": "/Butterfly.svg",
-//           "title": "Микровселенная в кармане",
-//           "category": "другое",
-//           "price": 750
-//       },
-//       {
-//           "id": "48e86fc0-ca99-4e13-b164-b98d65928b53",
-//           "description": "Очень полезный навык для фронтендера. Без шуток.",
-//           "image": "Leaf.svg",
-//           "title": "UI/UX-карандаш",
-//           "category": "хард-скил",
-//           "price": 10000
-//       },
-//       {
-//           "id": "90973ae5-285c-4b6f-a6d0-65d1d760b102",
-//           "description": "Сжимайте мячик, чтобы снизить стресс от тем по бэкенду.",
-//           "image": "/Mithosis.svg",
-//           "title": "Бэкенд-антистресс",
-//           "category": "другое",
-//           "price": 1000
-//       }
-//   ]
-
-  

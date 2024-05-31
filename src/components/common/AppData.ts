@@ -48,7 +48,7 @@ export class AppData implements IAppData{
      }
     })
     this.events.emit('modal:open', this.modal);
-  } 
+  }
 
   getTotal(){
     return this.items.length
