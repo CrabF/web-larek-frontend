@@ -43,9 +43,15 @@ export class Card extends Component<IProductItem>  {
     this.setImage(this.cardImage, img, img)
   }
 
+  get title(): string{
+    return this.cardTitle.textContent || "";
+  }
+
   set title(text: string){
     this.setText(this.cardTitle, text)
   }
+
+  
 
   // card__category_soft
 

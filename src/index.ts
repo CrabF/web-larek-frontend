@@ -12,7 +12,8 @@ import { Modal } from './components/common/Modal';
 
 //Поиск нужных элементов
 const container = document.querySelector('.page');
-const modalContainer = document.querySelector('#modal-container')
+const modalContainer = document.querySelector('#modal-container'); 
+const previewContainer = document.querySelector('#card-preview');
 
 //Добавление наследников основных классов
 const events = new EventEmitter();
@@ -43,14 +44,29 @@ events.on('cards:changed', (items: IProductItem[])=>{
     });
     return card.render(item)
   })
+//Рендер страницы с информацией с сервера
   page.render({
     counter: model.getTotal(),
     catalog: cardsArray
   })
 })
 
+//Если на карточку на странице кликнули, то в модель передается объект карточки
 events.on('card:selected', (item: IProductItem)=>{
   model.setItemPreview(item);
-  modal.open()
-  console.log('11')
+})
+
+
+//Открытие превью карточки, если она была выбрана
+events.on('preview:changed', (cardPreview: IProductItem)=>{
+  console.log(cardPreview)
+  const card = new Card(cloneTemplate('#card-preview'), {
+    func: ()=>{
+      console.log('здесь должна быть обработка добавления в корзину и удаления из нее')
+    }
+  })
+  console.log(card)
+  modal.render({
+    data: card.render(cardPreview)
+  })
 })

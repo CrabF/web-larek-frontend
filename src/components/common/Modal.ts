@@ -3,7 +3,7 @@ import { Component } from "../base/Component";
 import { IEvents } from "../base/events";
 
 interface IModalData {
-  content: HTMLElement;
+  data: HTMLElement;
 }
 
 export class Modal extends Component<IModalData> {
@@ -16,6 +16,9 @@ protected content: HTMLElement;
     this.buttonClose = ensureElement<HTMLButtonElement>('.modal__close', container);
     this.content = ensureElement<HTMLElement>('.modal__content', container); 
 
+    // ???????
+    // this.content.addEventListener('click', (event)=> event.stopPropagation())
+
     this.buttonClose.addEventListener('click', this.close.bind(this));
   }
 
@@ -25,7 +28,7 @@ protected content: HTMLElement;
 
   open() {
     this.container.classList.add('modal_active');
-    this.events.emit('modal:open')
+    // this.events.emit('modal:open')
   }
 
   close() {
@@ -39,4 +42,4 @@ protected content: HTMLElement;
     this.open();
     return this.container
   }
-} 
+}
