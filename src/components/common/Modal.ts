@@ -16,7 +16,7 @@ protected content: HTMLElement;
     this.buttonClose = ensureElement<HTMLButtonElement>('.modal__close', container);
     this.content = ensureElement<HTMLElement>('.modal__content', container); 
 
-    this.buttonClose.addEventListener('click', this.close);
+    this.buttonClose.addEventListener('click', this.close.bind(this));
   }
 
   set data(cardInfo: HTMLElement) {

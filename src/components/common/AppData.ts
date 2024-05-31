@@ -5,7 +5,7 @@ import { IEvents } from "../base/events";
 interface IAppData{
   getCards(): IProductItem[];
   setCards(items: IProductItem[]): void;
-  initModal(card: IProductItem): void;
+  setItemPreview(card: IProductItem): void;
   getTotal(): number;
   addToBasket(card: IProductItem): void;
   removeFromBasket(card: IProductItem): void;
@@ -16,6 +16,7 @@ interface IAppData{
 
 export class AppData implements IAppData{
   protected items: IProductItem[]=[];
+  protected itemPreview: IProductItem = null;
   protected order: IOrder = {
     address: '',
     email: '',
@@ -28,7 +29,7 @@ export class AppData implements IAppData{
     total: 0,
     items: []
   }
-  protected modal: IProductItem = null;
+  // protected modal: IProductItem = null;
 
   constructor(protected events: IEvents){}
 
@@ -41,13 +42,13 @@ export class AppData implements IAppData{
     this.events.emit('cards:changed', this.items);
   }
 
-  initModal(card: IProductItem) {
+  setItemPreview(card: IProductItem) {
     this.items.find((item)=>{
      if(item.id === card.id){
-      return this.modal = card
+      return this.itemPreview = card
      }
     })
-    this.events.emit('modal:open', this.modal);
+    this.events.emit('preview:changed', this.itemPreview);
   }
 
   getTotal(){
@@ -74,6 +75,10 @@ export class AppData implements IAppData{
     this.basket.total = 0;
     this.events.emit('basket:changed', this.basket);
   }
+
+  // setItemPreview(data: IProductItem) {
+  //   this.itemPreview = data; 
+  // }
 
   validateOrder() {
 
