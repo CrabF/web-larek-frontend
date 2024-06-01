@@ -54,19 +54,28 @@ events.on('cards:changed', (items: IProductItem[])=>{
 //Если на карточку на странице кликнули, то в модель передается объект карточки
 events.on('card:selected', (item: IProductItem)=>{
   model.setItemPreview(item);
+  
 })
-
 
 //Открытие превью карточки, если она была выбрана
 events.on('preview:changed', (cardPreview: IProductItem)=>{
-  console.log(cardPreview)
   const card = new Card(cloneTemplate('#card-preview'), {
     func: ()=>{
       console.log('здесь должна быть обработка добавления в корзину и удаления из нее')
     }
   })
-  console.log(card)
+//Рендерим модалку, а внутрь передаем элемент карточки - зарендерив его 
   modal.render({
     data: card.render(cardPreview)
   })
+})
+
+//Если модалка открыта, скролл страницы задизейблен
+events.on('modal:open', ()=>{
+  page.pageWrapperLocked = true
+})
+
+//Если модалка закрыта, скролл страницы работает
+events.on('modal:close', ()=>{
+  page.pageWrapperLocked = false
 })

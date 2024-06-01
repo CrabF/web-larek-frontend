@@ -11,9 +11,9 @@ export class Page extends Component<IPage> {
   protected basketCounter: HTMLElement;
   protected gallery: HTMLElement;
   protected basket: HTMLElement;
+  protected wrapper: HTMLElement;
 
   constructor(documentBody: HTMLElement, protected events: IEvents){
-    // constructor(documentBody: HTMLElement){
     super(documentBody);
     this.basketCounter = ensureElement('.header__basket-counter', this.container) as HTMLElement;
     this.gallery = ensureElement('.gallery', this.container) as HTMLElement;
@@ -21,6 +21,7 @@ export class Page extends Component<IPage> {
     this.basket.addEventListener('click', ()=>{
       events.emit('basket:open')
     })
+    this.wrapper = ensureElement('.page__wrapper', this.container);
   }
 
     set counter(value: number){
@@ -30,4 +31,8 @@ export class Page extends Component<IPage> {
     set catalog(items: HTMLElement[]) {
       this.gallery.replaceChildren(...items)
     }
+
+    set pageWrapperLocked(value: boolean){
+      this.toggleClass(this.wrapper, 'page__wrapper_locked', value)
+    }    
   }

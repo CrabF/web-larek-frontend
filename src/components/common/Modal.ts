@@ -15,10 +15,6 @@ protected content: HTMLElement;
     super(container);
     this.buttonClose = ensureElement<HTMLButtonElement>('.modal__close', container);
     this.content = ensureElement<HTMLElement>('.modal__content', container); 
-
-    // ???????
-    // this.content.addEventListener('click', (event)=> event.stopPropagation())
-
     this.buttonClose.addEventListener('click', this.close.bind(this));
   }
 
@@ -28,12 +24,11 @@ protected content: HTMLElement;
 
   open() {
     this.container.classList.add('modal_active');
-    // this.events.emit('modal:open')
+    this.events.emit('modal:open');
   }
 
   close() {
     this.container.classList.remove('modal_active');
-    this.content = null;
     this.events.emit('modal:close')
   }
 

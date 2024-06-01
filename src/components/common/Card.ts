@@ -16,7 +16,6 @@ export class Card extends Component<IProductItem>  {
   protected cardPrice: HTMLElement;
   protected cardButton?: HTMLButtonElement;
   protected cardId: string;
-  // protected selectorCategory: string;
 
   constructor(container: HTMLElement, action?: IOpenPrewiev){
     super(container);
@@ -25,7 +24,6 @@ export class Card extends Component<IProductItem>  {
     this.cardImage = container.querySelector('.card__image');
     this.cardTitle = ensureElement<HTMLElement>('.card__title', container);
     this.cardCategory = container.querySelector('.card__category');
-    // this.selectorCategory = '.card__category_soft'
     this.cardPrice = ensureElement<HTMLElement>('.card__price', container);
     this.cardButton = container.querySelector('.card__button');
     this.cardImage = container.querySelector('.card__image');
@@ -50,10 +48,6 @@ export class Card extends Component<IProductItem>  {
   set title(text: string){
     this.setText(this.cardTitle, text)
   }
-
-  
-
-  // card__category_soft
 
   set category(text: string){
     this.setText(this.cardCategory, text);
