@@ -6,7 +6,6 @@ interface IOpenPrewiev {
   func: (event: MouseEvent)=> void;
 }
 
- 
 export class Card extends Component<IProductItem>  {
 
   protected cardDescription?: HTMLElement;
