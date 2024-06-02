@@ -63,10 +63,16 @@ events.on('card:selected', (item: IProductItem)=>{
 events.on('preview:changed', (cardPreview: IProductItem)=>{
   const card = new Card(cloneTemplate('#card-preview'), {
     func: ()=>{
-      events.emit('basket:changed', cardPreview);
-      // console.log('здесь должна быть обработка добавления в корзину и удаления из нее')
+      if(model.inBasket(cardPreview)){
+        model.removeFromBasket(card);
+        card.button = 'В корзину'
+      } else {
+        model.addToBasket(card);
+        card.button = 'Удалить из корзины'
+      }
     }
   })
+  card.button = model.inBasket(cardPreview)? 'Удалить из корзины':'В корзину';
 //Рендерим модалку, а внутрь передаем элемент карточки - зарендерив его 
   modal.render({
     data: card.render(cardPreview)
@@ -91,14 +97,13 @@ events.on('basket:open', ()=>{
 })
 
 events.on('basket:changed', (item: IProductItem)=>{
-  modal.close();
   page.counter = model.getTotal();
   const card = new Card((cloneTemplate('#card-basket')), {
     func: ()=>{
-      console.log('хз пока')
+      console.log('kek')
     }
   });
-  modal.render({
-    data: card.render(item)
-  })
+  // modal.render({
+  //   data: card.render(item)
+  // })
 })

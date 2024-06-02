@@ -7,6 +7,7 @@ interface IAppData{
   setCards(items: IProductItem[]): void;
   setItemPreview(card: IProductItem): void;
   getTotal(): number;
+  inBasket(card: IProductItem): boolean;
   addToBasket(card: IProductItem): void;
   removeFromBasket(card: IProductItem): void;
   clearBasket(): void;
@@ -52,6 +53,12 @@ export class AppData implements IAppData{
 
   getTotal(): number{
     return this.basket.items.length
+  }
+
+  inBasket(card: IProductItem): boolean {
+    return this.basket.items.some((item) => {
+      return item.id === card.id;
+    });
   }
 
   addToBasket(card: IProductItem): void {
