@@ -7,13 +7,14 @@ import {API_URL as Api, CDN_URL as Content} from './utils/constants'
 import { Page } from './components/common/Page';
 import { Card } from './components/common/Card';
 import { cloneTemplate } from './utils/utils';
-import { IProductItem } from './types';
+import { IProductItem, IProductList } from './types';
 import { Modal } from './components/common/Modal';
+import { Basket } from './components/common/Basket';
 
 //Поиск нужных элементов
 const container = document.querySelector('.page');
 const modalContainer = document.querySelector('#modal-container'); 
-const previewContainer = document.querySelector('#card-preview');
+const cardBasket = document.querySelector('#card-basket');
 
 //Добавление наследников основных классов
 const events = new EventEmitter();
@@ -21,6 +22,8 @@ const page = new Page(container as HTMLElement, events);
 const modal = new Modal(modalContainer as HTMLElement, events)
 const model = new AppData(events)
 const api = new LarekApi(Api, Content);
+const basket = new Basket(cloneTemplate('#basket'), events)
+
 
 
 //Получение массива с сервера
@@ -53,15 +56,15 @@ events.on('cards:changed', (items: IProductItem[])=>{
 
 //Если на карточку на странице кликнули, то в модель передается объект карточки
 events.on('card:selected', (item: IProductItem)=>{
-  model.setItemPreview(item);
-  
+  model.setItemPreview(item); 
 })
 
 //Открытие превью карточки, если она была выбрана
 events.on('preview:changed', (cardPreview: IProductItem)=>{
   const card = new Card(cloneTemplate('#card-preview'), {
     func: ()=>{
-      console.log('здесь должна быть обработка добавления в корзину и удаления из нее')
+      events.emit('basket:changed', cardPreview);
+      // console.log('здесь должна быть обработка добавления в корзину и удаления из нее')
     }
   })
 //Рендерим модалку, а внутрь передаем элемент карточки - зарендерив его 
@@ -78,4 +81,24 @@ events.on('modal:open', ()=>{
 //Если модалка закрыта, скролл страницы работает
 events.on('modal:close', ()=>{
   page.pageWrapperLocked = false
+})
+
+//Открытие корзины
+events.on('basket:open', ()=>{
+  modal.render({
+    data: basket.render()
+  })
+})
+
+events.on('basket:changed', (item: IProductItem)=>{
+  modal.close();
+  page.counter = model.getTotal();
+  const card = new Card((cloneTemplate('#card-basket')), {
+    func: ()=>{
+      console.log('хз пока')
+    }
+  });
+  modal.render({
+    data: card.render(item)
+  })
 })

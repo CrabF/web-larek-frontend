@@ -27,7 +27,9 @@ export class Card extends Component<IProductItem>  {
     this.cardButton = container.querySelector('.card__button');
     this.cardImage = container.querySelector('.card__image');
 
-    if(action?.func){
+    if(action?.func && this.button){
+      this.cardButton.addEventListener('click', action.func)
+    } else {
       this.container.addEventListener('click', action.func);
     }
   }

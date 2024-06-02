@@ -51,7 +51,7 @@ export class AppData implements IAppData{
   }
 
   getTotal(): number{
-    return this.items.length
+    return this.basket.items.length
   }
 
   addToBasket(card: IProductItem): void {
