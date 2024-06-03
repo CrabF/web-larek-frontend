@@ -1,4 +1,4 @@
-import { ensureElement } from "../../utils/utils";
+import { createElement, ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 import { IEvents } from "../base/events";
 
@@ -23,11 +23,21 @@ export class Basket extends Component<IBasket> {
     this.basketButton.addEventListener('click', ()=>{
       events.emit('order:selected')
     })
+
+    this.items = [];
   }
 
   set items(value: HTMLElement[]){
-    this.basketItems.replaceChildren(...value);
-    this.basketButton.removeAttribute('disabled')
+    if(value.length) {
+      this.basketItems.replaceChildren(...value);
+      this.basketButton.removeAttribute('disabled')
+    } else {
+      this.basketItems.replaceChildren(createElement('h1', {
+        textContent: 'Пусто'
+      }))
+      this.basketButton.setAttribute('disabled', '')
+    }
+    
 
   }
   set total(value: number){

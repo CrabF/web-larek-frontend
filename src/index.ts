@@ -60,22 +60,22 @@ events.on('card:selected', (item: IProductItem)=>{
 })
 
 //Открытие превью карточки, если она была выбрана
-events.on('preview:changed', (cardPreview: IProductItem)=>{
+events.on('preview:changed', (item: IProductItem)=>{
   const card = new Card(cloneTemplate('#card-preview'), {
     func: ()=>{
-      if(model.inBasket(cardPreview)){
-        model.removeFromBasket(card);
+      if(model.inBasket(item)){
+        model.removeFromBasket(item);
         card.button = 'В корзину'
       } else {
-        model.addToBasket(card);
+        model.addToBasket(item);
         card.button = 'Удалить из корзины'
       }
     }
   })
-  card.button = model.inBasket(cardPreview)? 'Удалить из корзины':'В корзину';
+  card.button = model.inBasket(item)? 'Удалить из корзины':'В корзину';
 //Рендерим модалку, а внутрь передаем элемент карточки - зарендерив его 
   modal.render({
-    data: card.render(cardPreview)
+    data: card.render(item)
   })
 })
 
@@ -96,14 +96,18 @@ events.on('basket:open', ()=>{
   })
 })
 
-events.on('basket:changed', (item: IProductItem)=>{
+//Содержиоме корзины поменялось
+events.on('basket:changed', (itemList: IProductList)=>{
+  console.log(itemList)
   page.counter = model.getTotal();
-  const card = new Card((cloneTemplate('#card-basket')), {
-    func: ()=>{
-      console.log('kek')
-    }
-  });
-  // modal.render({
-  //   data: card.render(item)
-  // })
+  const cardsArray = itemList.items.map((item)=>{
+    const card = new Card((cloneTemplate('#card-basket')), {
+      func: ()=>{
+        model.removeFromBasket(item);
+      }
+    });
+    return card.render(item)
+  })
+  basket.items = cardsArray;
+  basket.total = itemList.total;
 })

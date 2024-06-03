@@ -73,6 +73,7 @@ export class AppData implements IAppData{
     this.basket.items = this.basket.items.filter((item)=>{
       return item.id !== card.id
     })
+    this.basket.total = this.basket.total - card.price;
     this.events.emit('basket:changed', this.basket);
   }
 
