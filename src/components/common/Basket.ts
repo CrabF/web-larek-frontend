@@ -12,6 +12,7 @@ export class Basket extends Component<IBasket> {
   protected basketButton: HTMLElement;
   protected basketPrice: HTMLElement;
   protected basketItems: HTMLElement;
+  // protected basketItemIndex: HTMLElement;
 
   constructor(container: HTMLElement,events: IEvents){
     super(container);
@@ -19,6 +20,7 @@ export class Basket extends Component<IBasket> {
     this.basketButton = ensureElement('.basket__button', container);
     this.basketPrice = ensureElement('.basket__price', container);
     this.basketItems = ensureElement('.basket__list', container);
+    // this.basketItemIndex = document.querySelector('.basket__item-index');
 
     this.basketButton.addEventListener('click', ()=>{
       events.emit('order:selected')
@@ -26,6 +28,10 @@ export class Basket extends Component<IBasket> {
 
     this.items = [];
   }
+
+  // set index(value: number){
+  //   this.setText(this.basketItemIndex, value)
+  // }
 
   set items(value: HTMLElement[]){
     if(value.length) {
@@ -37,7 +43,6 @@ export class Basket extends Component<IBasket> {
       }))
       this.basketButton.setAttribute('disabled', '')
     }
-    
 
   }
   set total(value: number){

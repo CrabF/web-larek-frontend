@@ -15,6 +15,7 @@ import { Basket } from './components/common/Basket';
 const container = document.querySelector('.page');
 const modalContainer = document.querySelector('#modal-container'); 
 const cardBasket = document.querySelector('#card-basket');
+const order = document.querySelector('#order');
 
 //Добавление наследников основных классов
 const events = new EventEmitter();
@@ -98,7 +99,6 @@ events.on('basket:open', ()=>{
 
 //Содержиоме корзины поменялось
 events.on('basket:changed', (itemList: IProductList)=>{
-  console.log(itemList)
   page.counter = model.getTotal();
   const cardsArray = itemList.items.map((item)=>{
     const card = new Card((cloneTemplate('#card-basket')), {
@@ -111,3 +111,8 @@ events.on('basket:changed', (itemList: IProductList)=>{
   basket.items = cardsArray;
   basket.total = itemList.total;
 })
+
+//Открытие заказа
+// events.on('order:selected', ()=>{
+
+// })
