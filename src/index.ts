@@ -10,6 +10,7 @@ import { cloneTemplate } from './utils/utils';
 import { IProductItem, IProductList } from './types';
 import { Modal } from './components/common/Modal';
 import { Basket } from './components/common/Basket';
+import { Form } from './components/common/Form';
 
 //Поиск нужных элементов
 const container = document.querySelector('.page');
@@ -23,7 +24,7 @@ const page = new Page(container as HTMLElement, events);
 const modal = new Modal(modalContainer as HTMLElement, events)
 const model = new AppData(events)
 const api = new LarekApi(Api, Content);
-const basket = new Basket(cloneTemplate('#basket'), events)
+const basket = new Basket(cloneTemplate('#basket'), events);
 
 
 
@@ -113,6 +114,13 @@ events.on('basket:changed', (itemList: IProductList)=>{
 })
 
 //Открытие заказа
-// events.on('order:selected', ()=>{
-
-// })
+events.on('order:selected', ()=>{
+  const formOrder = new Form(cloneTemplate('#order'), {
+    func: ()=>{
+      console.log('ххааай')
+    }
+  })
+  modal.render({
+    data: formOrder.render()
+  })
+})
