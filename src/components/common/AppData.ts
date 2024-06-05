@@ -1,8 +1,9 @@
 import { IOrder, IOrderForm, IOrderSuccess, IProductItem, IProductList, Payment } from "../../types";
 import { IEvents } from "../base/events";
 
+type IFormErrors = Partial<Record<keyof IOrderForm, string>>
 
-interface IAppData{
+interface IAppData {
   getCards(): IProductItem[];
   setCards(items: IProductItem[]): void;
   setItemPreview(card: IProductItem): void;
@@ -12,12 +13,11 @@ interface IAppData{
   removeFromBasket(card: IProductItem): void;
   clearBasket(): void;
   validateOrder():void;
-  successOrder():void;
 }
 
 export class AppData implements IAppData{
   protected items: IProductItem[]=[];
-   order: IOrder = {
+  protected order: IOrder = {
     address: '',
     email: '',
     phone: '',
@@ -30,6 +30,8 @@ export class AppData implements IAppData{
     items: []
   }
   protected itemPreview: IProductItem = null;
+
+  formErrors: IFormErrors = {}
 
   constructor(protected events: IEvents){}
 
@@ -93,13 +95,36 @@ export class AppData implements IAppData{
     } else {
       this.order[field] = value
     }
+
+    if(this.order.payment && this.validateOrder()){
+      this.order.total = this.basket.total;
+      this.order.items = this.basket.items;
+      this.events.emit('order:success', this.order)
+    }
   }
 
-  validateOrder(): void {
+  validateOrder() {
+    const errors: typeof this.formErrors = {};
 
-  }
+    if(!this.order.payment){
+      errors.payment = 'Способ оплаты не был выбран'
+    }
 
-  successOrder(): void{
+    if(!this.order.address){
+      errors.address = 'Введите адрес'
+    }
 
-  }
+    if(!this.order.phone){
+      errors.phone = 'Введите номер телефона'
+    }
+
+    if(!this.order.email){
+      errors.email = 'Введите email'
+    }
+
+    this.formErrors = errors;
+    this.events.emit('formError:changed', this.formErrors)
+
+    return Object.keys(errors).length === 0
+  } 
 }
