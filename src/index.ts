@@ -10,13 +10,14 @@ import { cloneTemplate } from './utils/utils';
 import { IProductItem, IProductList } from './types';
 import { Modal } from './components/common/Modal';
 import { Basket } from './components/common/Basket';
-import { Form } from './components/common/Form';
+import { IButtonText, Order } from './components/common/Order';
 
 //Поиск нужных элементов
 const container = document.querySelector('.page');
 const modalContainer = document.querySelector('#modal-container'); 
 const cardBasket = document.querySelector('#card-basket');
-const order = document.querySelector('#order');
+
+
 
 //Добавление наследников основных классов
 const events = new EventEmitter();
@@ -25,7 +26,7 @@ const modal = new Modal(modalContainer as HTMLElement, events)
 const model = new AppData(events)
 const api = new LarekApi(Api, Content);
 const basket = new Basket(cloneTemplate('#basket'), events);
-
+const orderForm = new Order(cloneTemplate('#order'), events)
 
 
 //Получение массива с сервера
@@ -115,25 +116,25 @@ events.on('basket:changed', (itemList: IProductList)=>{
 
 //Открытие заказа
 events.on('order:selected', ()=>{
-  const formOrder = new Form(cloneTemplate('#order'), {
-    func: ()=>{
-      console.log('ххааай')
-    }
-  })
   modal.render({
-    data: formOrder.render()
+    data: orderForm.render({
+      payment: 'card',
+      address: '',
+      valid: false,
+      errors: []
+    })
   })
 })
 
 //Изменение способа оплаты
-events.on('payment:changed', (obj: object)=>{
-  console.log(obj)
-  // if(obj.item === 'Онлайн'){
-  //   model.changePayment('card')
-  // } else {
-  //   model.changePayment('cash')
-  // }
+events.on('payment:changed', (item: IButtonText)=>{
+  if(item.data === 'Онлайн'){
+    model.changePayment('card')
+  } else {
+    model.changePayment('cash')
+  }
 })
 
+//Проверка валидации
 
 

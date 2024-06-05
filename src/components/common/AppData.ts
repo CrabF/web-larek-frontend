@@ -1,4 +1,4 @@
-import { IOrder, IOrderSuccess, IProductItem, IProductList, Payment } from "../../types";
+import { IOrder, IOrderForm, IOrderSuccess, IProductItem, IProductList, Payment } from "../../types";
 import { IEvents } from "../base/events";
 
 
@@ -17,7 +17,7 @@ interface IAppData{
 
 export class AppData implements IAppData{
   protected items: IProductItem[]=[];
-  protected order: IOrder = {
+   order: IOrder = {
     address: '',
     email: '',
     phone: '',
@@ -85,6 +85,14 @@ export class AppData implements IAppData{
 
   changePayment(value: Payment){
     this.order.payment = value;
+  }
+
+  setFieldValue(field: keyof IOrderForm, value: string){
+    if(field === 'payment'){
+      this.changePayment(value as Payment)
+    } else {
+      this.order[field] = value
+    }
   }
 
   validateOrder(): void {

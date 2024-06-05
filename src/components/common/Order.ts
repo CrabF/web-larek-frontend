@@ -4,6 +4,10 @@ import { IEvents } from "../base/events";
 import { Form } from "./Form";
 
 
+export type IButtonText = {
+  data: string
+}
+
 export class Order extends Form<IOrderForm>{
 
   protected containerButtons: HTMLElement;
@@ -19,11 +23,12 @@ export class Order extends Form<IOrderForm>{
     this.containerButtons.addEventListener('click', (event) => {
       if((event.target as HTMLElement).tagName === 'BUTTON'){
         this.toggleClass((event.target as HTMLElement), 'button_alt-active');
-        events.emit('payment:changed', {
-          item: (event.target as HTMLElement).textContent})
+        const buttonText: IButtonText = {
+          data: (event.target as HTMLElement).textContent
+        }
+        events.emit('payment:changed', buttonText)
       }
     });
-    
   }
 
   // set payMethod(value){
