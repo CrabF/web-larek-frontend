@@ -1,35 +1,36 @@
+import { Payment } from "../../types";
 import { ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/events";
 import { Form } from "./Form";
 
-type Payment = 'cash' | 'card';
 
 export class Order extends Form{
 
-  protected cardButton: HTMLButtonElement;
-  protected cashButton: HTMLButtonElement;
+  protected containerButtons: HTMLElement;
   protected payment: Payment;
+  protected addressInput: HTMLInputElement;
 
   constructor(container: HTMLElement, events: IEvents){
     super(container)
 
-    this.cardButton = ensureElement<HTMLButtonElement>('.button_alt[name=card]', this.container);
-    this.cashButton = ensureElement<HTMLButtonElement>('.button_alt[name=cash]', this.container);
+    this.containerButtons = ensureElement('.order__buttons', container)
+    this.addressInput = ensureElement<HTMLInputElement>('.form__input', container)
 
-    this.cardButton.addEventListener('click', ()=>{
-      this.payment = 'card'
-    })
+    this.containerButtons.addEventListener('click', (event) => {
+      if((event.target as HTMLElement).tagName === 'BUTTON'){
+        this.toggleClass((event.target as HTMLElement), 'button_alt-active');
+        events.emit('payment:changed', {
+          item: (event.target as HTMLElement).textContent})
+      }
+    });
+    
+  }
 
-    this.cashButton.addEventListener('click', ()=>{
-      this.payment = 'cash'
-    })
+  // set payMethod(value){
+  //   this.payment = value
+  // }
 
-    set payMethod(value){
-      
-    }
-
-    set adress(value: string){
-
-    }
+  set address(value: string){
+    this.addressInput.value = value;
   }
 }

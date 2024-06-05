@@ -1,4 +1,4 @@
-import { IOrder, IOrderSuccess, IProductItem, IProductList } from "../../types";
+import { IOrder, IOrderSuccess, IProductItem, IProductList, Payment } from "../../types";
 import { IEvents } from "../base/events";
 
 
@@ -21,7 +21,7 @@ export class AppData implements IAppData{
     address: '',
     email: '',
     phone: '',
-    payment: 'online',
+    payment: 'cash',
     total: 0,
     items: []
   }
@@ -81,6 +81,10 @@ export class AppData implements IAppData{
     this.basket.items = [];
     this.basket.total = 0;
     this.events.emit('basket:changed', this.basket);
+  }
+
+  changePayment(value: Payment){
+    this.order.payment = value;
   }
 
   validateOrder(): void {

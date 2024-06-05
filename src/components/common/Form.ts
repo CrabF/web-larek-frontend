@@ -27,11 +27,13 @@ export class Form extends Component<IForm>{
     this.submitButton.addEventListener('click', action.func)
 
     
-    this.orderButtons.addEventListener('click', (event) => {
-      if((event.target as HTMLElement).tagName === 'BUTTON'){
-        this.toggleClass((event.target as HTMLElement), 'button_alt-active');
-      }
-    });
+    // this.orderButtons.addEventListener('click', (event) => {
+    //   if((event.target as HTMLElement).tagName === 'BUTTON'){
+    //     this.toggleClass((event.target as HTMLElement), 'button_alt-active');
+    //   }
+    
+    //   console.log(event.target)
+    // });
   }
 
   set title(value: string){

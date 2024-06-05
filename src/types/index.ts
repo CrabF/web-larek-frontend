@@ -17,7 +17,7 @@ export interface IOrder {
   address: string;
   email: string;
   phone: string;
-  payment: 'online' | 'cash',
+  payment: 'cash' | 'card',
   total: number;
   items: string[]
 }
@@ -26,3 +26,5 @@ export interface IOrderSuccess {
   id: string;
   total: number
 }
+
+export type Payment = 'cash' | 'card';

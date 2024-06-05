@@ -124,3 +124,16 @@ events.on('order:selected', ()=>{
     data: formOrder.render()
   })
 })
+
+//Изменение способа оплаты
+events.on('payment:changed', (obj: object)=>{
+  console.log(obj)
+  // if(obj.item === 'Онлайн'){
+  //   model.changePayment('card')
+  // } else {
+  //   model.changePayment('cash')
+  // }
+})
+
+
+
