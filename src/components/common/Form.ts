@@ -1,54 +1,55 @@
 import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
+import { IEvents } from "../base/events";
 
 interface IForm {
-  func: (event: MouseEvent)=> void;
+  valid: boolean,
+  errors: string[]
 }
 
-export class Form extends Component<IForm>{
+export class Form<T> extends Component<IForm>{
 
-  protected formTitle?: HTMLElement;
-  protected orderButtons?: HTMLButtonElement;
-  protected orderField: HTMLElement;
-  protected spanField: HTMLInputElement;
-  protected formInput: HTMLInputElement;
   protected submitButton: HTMLButtonElement;
   protected spanErrors: HTMLInputElement;
 
-  constructor(container: HTMLElement, action?: IForm){
+  constructor(container: HTMLFormElement, protected events: IEvents){
     super(container);
-
-    this.formTitle = container.querySelector('.modal__title');
-    this.orderButtons = container.querySelector('.order__buttons');
-    this.formInput = ensureElement<HTMLInputElement>('.form__input', container);
     this.submitButton = ensureElement<HTMLButtonElement>('.order__button',container);
     this.spanErrors = ensureElement<HTMLInputElement>('.form__errors', container);
 
-    this.submitButton.addEventListener('click', action.func)
+    this.container.addEventListener('input', (event: Event)=>{
+      const field = ((event.target) as HTMLInputElement).name as keyof T;
+      const value = ((event.target) as HTMLInputElement).value;
+      this.inputChange(field, value)
+    })
 
-    
-    // this.orderButtons.addEventListener('click', (event) => {
-    //   if((event.target as HTMLElement).tagName === 'BUTTON'){
-    //     this.toggleClass((event.target as HTMLElement), 'button_alt-active');
-    //   }
-    
-    //   console.log(event.target)
-    // });
+    this.container.addEventListener('submit', (event: Event)=>{
+      event.preventDefault();
+      this.events.emit(`${container.name}:submit`);
+    })
   }
 
-  set title(value: string){
-    this.setText(this.formTitle, value);
+  inputChange(field: keyof T, value: string){
+    this.events.emit(`${(this.container as HTMLFormElement).name}.${String(field)}:changed`, {
+      field,
+      value
+    })
   }
 
-  set input(text: string){
-    this.setText(this.formInput, text)
+  set valid(value: boolean){
+    if(!value){
+      this.submitButton.disabled 
+    }
   }
 
-  set button(text: string){
-    this.setText(this.submitButton, text) 
+  set errors(text: string){
+    this.setText(this.spanErrors, text)
   }
 
-  set error(text: string){
-    this.setText( this.spanErrors, text)
+  render(data: Partial<T> & IForm) {
+    const {valid, errors, ...inputs} = data;
+    super.render({valid, errors});
+    Object.assign(this, inputs);
+    return this.container
   }
 } 

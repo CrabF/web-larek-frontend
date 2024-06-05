@@ -1,17 +1,17 @@
-import { Payment } from "../../types";
+import { IOrderForm, Payment } from "../../types";
 import { ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/events";
 import { Form } from "./Form";
 
 
-export class Order extends Form{
+export class Order extends Form<IOrderForm>{
 
   protected containerButtons: HTMLElement;
   protected payment: Payment;
   protected addressInput: HTMLInputElement;
 
-  constructor(container: HTMLElement, events: IEvents){
-    super(container)
+  constructor(container: HTMLFormElement, events: IEvents){
+    super(container, events)
 
     this.containerButtons = ensureElement('.order__buttons', container)
     this.addressInput = ensureElement<HTMLInputElement>('.form__input', container)
