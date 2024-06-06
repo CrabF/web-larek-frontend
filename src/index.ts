@@ -10,7 +10,7 @@ import { cloneTemplate } from './utils/utils';
 import { IOrderForm, IProductItem, IProductList } from './types';
 import { Modal } from './components/common/Modal';
 import { Basket } from './components/common/Basket';
-import { IButtonText, Order } from './components/common/Order';
+import { Order } from './components/common/Order';
 import { Contacts } from './components/common/Contacts';
 import { SuccessOrder } from './components/common/SuccessOrder';
 
@@ -18,9 +18,6 @@ import { SuccessOrder } from './components/common/SuccessOrder';
 const container = document.querySelector('.page');
 const modalContainer = document.querySelector('#modal-container'); 
 const cardBasket = document.querySelector('#card-basket');
-
-// const successTemplate = ensureElement<HTMLTemplateElement>('#success');
-
 
 //Добавление наследников основных классов
 const events = new EventEmitter();
@@ -131,72 +128,42 @@ events.on('order:selected', ()=>{
   })
 })
 
-
-//Изменение способа оплаты
-// events.on('payment:changed', (item: IButtonText)=>{
-//   if(item.data === 'Онлайн'){
-//     model.changePayment('card');
-//     model.validateOrder();
-//   } else {
-//     model.changePayment('cash');
-//     model.validateOrder()
-//   }
-// })
-
-//Проверка валидации
-// events.on(/^order\..*:changed/, (data: { field: keyof IOrderForm, value: string }) => {
-//   console.log('кажись работает')
-//   model.setFieldValue(data.field, data.value);
-// });
-
-
-//Позже
-
-
+//Валидация кнопки выбора оплаты
 events.on('order.payment:changed', (data: { field: keyof IOrderForm, value: string }) => {
   model.setFieldValue(data.field, data.value);
 });
 
+//Валидация строки адрес
 events.on('order.address:changed', (data: { field: keyof IOrderForm, value: string }) => {
   model.setFieldValue(data.field, data.value);
 });
 
+//Валидация строки номера телефона
+events.on('contacts.phone:changed', (data: { field: keyof IOrderForm, value: string }) => {
+  model.setFieldValue(data.field, data.value);
+});
 
-//не надо пока
+//Валидация строки email
+events.on('contacts.email:changed', (data: { field: keyof IOrderForm, value: string }) => {
+  model.setFieldValue(data.field, data.value);
+});
 
-//Проверка валидации
-// events.on(/^contacts\..*:changed/, (data: { field: keyof IOrderForm, value: string }) => {
-//   model.setFieldValue(data.field, data.value);
-// });
+//Обработка ошибок обеих форм
+events.on('formErrors:changed', (errors: Partial<IOrderForm>)=>{
+  const { payment, address, email, phone } = errors;
+  orderForm.valid = !payment && !address;
+  orderForm.errors = Object.values({payment, address}).filter(item=>Boolean(item)).join('; ');
+  contactsForm.errors = Object.values({email, phone}).filter(item=>Boolean(item)).join('; ');
+})
 
-
-
-//позже 
-
-
-
-
-// events.on('formErrors:changed', (errors: Partial<IOrderForm>)=>{
-//   const { payment, address, email, phone } = errors;
-//   orderForm.valid = !payment && !address;
-//   orderForm.errors = Object.values({payment, address}).filter(item=>!!item).join('; ');
-//   contactsForm.errors = Object.values({email, phone}).filter(item=>!!item).join('; ');
-// })
-
-// //Открытие формы с контактами
-// events.on('orderForm:submit', ()=>{
-//   orderForm.valid = true;
-//   modal.render({
-//     data: contactsForm.render({
-//       email: '',
-//       phone: '',
-//       valid: false,
-//       errors: []
-//     })
-//   })
-// })
-
-// //Успешный заказ
-// events.on('order:success', ()=>{
-//   contactsForm.valid = true;
-// })
+//Открытие формы с контактами
+events.on('order:submit', ()=>{
+  modal.render({
+    data: contactsForm.render({
+      email: '',
+      phone: '',
+      valid: false,
+      errors: []
+    })
+  })
+})

@@ -16,7 +16,6 @@ export class Order extends Form<IOrderForm>{
 
     this.payCard = ensureElement<HTMLButtonElement>('.button_alt[name=card]', container);
     this.payCash = ensureElement<HTMLButtonElement>('.button_alt[name=cash]', container);
-    console.log(this.payCard)
 
     this.addressInput = ensureElement<HTMLInputElement>('.form__input', container)
 
@@ -38,6 +37,5 @@ export class Order extends Form<IOrderForm>{
 
   set address(value: string){
     this.addressInput.value = value;
-    console.log(this.addressInput.value)
   }
 }

@@ -101,7 +101,7 @@ export class AppData implements IAppData{
     if(this.order.payment && this.validateOrder()){
       this.order.total = this.basket.total;
       this.order.items = this.basket.items;
-      this.events.emit('order:success', this.order)
+      this.events.emit('orderForm:success', this.order)
     }
   }
 
@@ -125,7 +125,7 @@ export class AppData implements IAppData{
     }
 
     this.formErrors = errors;
-    this.events.emit('formError:changed', this.formErrors)
+    this.events.emit('formErrors:changed', this.formErrors)
 
     return Object.keys(errors).length === 0
   } 
