@@ -11,13 +11,18 @@ export type IButtonText = {
 export class Order extends Form<IOrderForm>{
 
   protected containerButtons: HTMLElement;
-  protected payment: Payment;
   protected addressInput: HTMLInputElement;
+  protected payCard: HTMLButtonElement;
+  protected payCash: HTMLButtonElement;
+  
 
   constructor(container: HTMLFormElement, events: IEvents){
     super(container, events)
 
-    this.containerButtons = ensureElement('.order__buttons', container)
+    this.containerButtons = ensureElement('.order__buttons', container);
+    this.payCard = ensureElement<HTMLButtonElement>('.button_alt[name=card]', this.containerButtons);
+    this.payCash = ensureElement<HTMLButtonElement>('.button_alt[name=cash]', this.containerButtons);
+
     this.addressInput = ensureElement<HTMLInputElement>('.form__input', container)
 
     this.containerButtons.addEventListener('click', (event) => {
@@ -31,9 +36,10 @@ export class Order extends Form<IOrderForm>{
     });
   }
 
-  // set payMethod(value){
-  //   this.payment = value
-  // }
+  set payMethod(value: Payment){
+    this.payCard.classList.toggle('.button_alt-active', value === 'card');
+    this.payCash.classList.toggle('.button_alt-active', value === 'cash')
+  }
 
   set address(value: string){
     this.addressInput.value = value;

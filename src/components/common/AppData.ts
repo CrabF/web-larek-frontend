@@ -12,7 +12,8 @@ interface IAppData {
   addToBasket(card: IProductItem): void;
   removeFromBasket(card: IProductItem): void;
   clearBasket(): void;
-  validateOrder():void;
+  setFieldValue(field: keyof IOrderForm, value: string): void;
+  validateOrder(): boolean
 }
 
 export class AppData implements IAppData{
