@@ -12,6 +12,7 @@ interface IAppData {
   addToBasket(card: IProductItem): void;
   removeFromBasket(card: IProductItem): void;
   clearBasket(): void;
+  changePayment(value: Payment): void;
   setFieldValue(field: keyof IOrderForm, value: string): void;
   validateOrder(): boolean
 }

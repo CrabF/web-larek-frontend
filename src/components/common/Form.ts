@@ -14,7 +14,7 @@ export class Form<T> extends Component<IForm>{
 
   constructor(container: HTMLFormElement, protected events: IEvents){
     super(container);
-    this.submitButton = ensureElement<HTMLButtonElement>('.order__button',container);
+    this.submitButton = ensureElement<HTMLButtonElement>('.button[type=submit]',container);
     this.spanErrors = ensureElement<HTMLInputElement>('.form__errors', container);
 
     this.container.addEventListener('input', (event: Event)=>{
@@ -37,9 +37,7 @@ export class Form<T> extends Component<IForm>{
   }
 
   set valid(value: boolean){
-    if(!value){
-      this.submitButton.disabled 
-    }
+    this.submitButton.disabled = !value
   }
 
   set errors(text: string){

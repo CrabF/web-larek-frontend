@@ -7,16 +7,19 @@ import {API_URL as Api, CDN_URL as Content} from './utils/constants'
 import { Page } from './components/common/Page';
 import { Card } from './components/common/Card';
 import { cloneTemplate } from './utils/utils';
-import { IProductItem, IProductList } from './types';
+import { IOrderForm, IProductItem, IProductList } from './types';
 import { Modal } from './components/common/Modal';
 import { Basket } from './components/common/Basket';
 import { IButtonText, Order } from './components/common/Order';
+import { Contacts } from './components/common/Contacts';
+import { SuccessOrder } from './components/common/SuccessOrder';
 
 //Поиск нужных элементов
 const container = document.querySelector('.page');
 const modalContainer = document.querySelector('#modal-container'); 
 const cardBasket = document.querySelector('#card-basket');
 
+// const successTemplate = ensureElement<HTMLTemplateElement>('#success');
 
 
 //Добавление наследников основных классов
@@ -26,7 +29,9 @@ const modal = new Modal(modalContainer as HTMLElement, events)
 const model = new AppData(events)
 const api = new LarekApi(Api, Content);
 const basket = new Basket(cloneTemplate('#basket'), events);
-const orderForm = new Order(cloneTemplate('#order'), events)
+const orderForm = new Order(cloneTemplate('#order'), events);
+const contactsForm = new Contacts(cloneTemplate('#contacts'), events);
+// const successDisplay = new SuccessOrder(cloneTemplate('#contacts'), events);
 
 
 //Получение массива с сервера
@@ -126,15 +131,72 @@ events.on('order:selected', ()=>{
   })
 })
 
+
 //Изменение способа оплаты
-events.on('payment:changed', (item: IButtonText)=>{
-  if(item.data === 'Онлайн'){
-    model.changePayment('card')
-  } else {
-    model.changePayment('cash')
-  }
-})
+// events.on('payment:changed', (item: IButtonText)=>{
+//   if(item.data === 'Онлайн'){
+//     model.changePayment('card');
+//     model.validateOrder();
+//   } else {
+//     model.changePayment('cash');
+//     model.validateOrder()
+//   }
+// })
 
 //Проверка валидации
+// events.on(/^order\..*:changed/, (data: { field: keyof IOrderForm, value: string }) => {
+//   console.log('кажись работает')
+//   model.setFieldValue(data.field, data.value);
+// });
 
 
+//Позже
+
+
+events.on('order.payment:changed', (data: { field: keyof IOrderForm, value: string }) => {
+  model.setFieldValue(data.field, data.value);
+});
+
+events.on('order.address:changed', (data: { field: keyof IOrderForm, value: string }) => {
+  model.setFieldValue(data.field, data.value);
+});
+
+
+//не надо пока
+
+//Проверка валидации
+// events.on(/^contacts\..*:changed/, (data: { field: keyof IOrderForm, value: string }) => {
+//   model.setFieldValue(data.field, data.value);
+// });
+
+
+
+//позже 
+
+
+
+
+// events.on('formErrors:changed', (errors: Partial<IOrderForm>)=>{
+//   const { payment, address, email, phone } = errors;
+//   orderForm.valid = !payment && !address;
+//   orderForm.errors = Object.values({payment, address}).filter(item=>!!item).join('; ');
+//   contactsForm.errors = Object.values({email, phone}).filter(item=>!!item).join('; ');
+// })
+
+// //Открытие формы с контактами
+// events.on('orderForm:submit', ()=>{
+//   orderForm.valid = true;
+//   modal.render({
+//     data: contactsForm.render({
+//       email: '',
+//       phone: '',
+//       valid: false,
+//       errors: []
+//     })
+//   })
+// })
+
+// //Успешный заказ
+// events.on('order:success', ()=>{
+//   contactsForm.valid = true;
+// })
