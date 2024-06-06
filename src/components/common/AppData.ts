@@ -19,7 +19,7 @@ interface IAppData {
 
 export class AppData implements IAppData{
   protected items: IProductItem[]=[];
-  protected order: IOrder = {
+  order: IOrder = {
     address: '',
     email: '',
     phone: '',
@@ -100,8 +100,8 @@ export class AppData implements IAppData{
 
     if(this.order.payment && this.validateOrder()){
       this.order.total = this.basket.total;
-      this.order.items = this.basket.items;
-      this.events.emit('orderForm:success', this.order)
+      this.order.items = this.basket.items.map(item => item.id);
+      this.events.emit('order:ready', this.order)
     }
   }
 

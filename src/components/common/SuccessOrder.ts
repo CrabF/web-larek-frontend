@@ -12,12 +12,12 @@ interface ICloseModal {
 export class SuccessOrder extends Component<ISuccessOrder>{
 
   protected successDescription: HTMLElement;
-  protected closeButton: HTMLElement;
+  protected closeButton: HTMLButtonElement;
 
   constructor(container: HTMLElement, action: ICloseModal){
     super(container);
-    this.successDescription = ensureElement('.order-success__description');
-    this.closeButton = ensureElement('.order-success__close');
+    this.successDescription = ensureElement<HTMLElement>('.order-success__description', container);
+    this.closeButton = ensureElement<HTMLButtonElement>('.order-success__close', container);
 
     if(action?.func){
       this.closeButton.addEventListener('click', action.func)
@@ -25,6 +25,6 @@ export class SuccessOrder extends Component<ISuccessOrder>{
   }
 
   set total(value: number) {
-    this.setText(this.successDescription, `Списано ${value}} синапсов`)
+    this.setText(this.successDescription, `Списано ${value} синапсов`)
   }
 }

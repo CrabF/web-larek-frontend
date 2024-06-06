@@ -34,5 +34,6 @@ export class LarekApi extends Api implements ILarekApi{
 
   postOrder (data: IOrder): Promise<IOrderSuccess>{
     return this.post('/order', data)
+    .then((data: IOrderSuccess)=> data) 
   }
 }

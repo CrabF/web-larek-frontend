@@ -7,7 +7,7 @@ import {API_URL as Api, CDN_URL as Content} from './utils/constants'
 import { Page } from './components/common/Page';
 import { Card } from './components/common/Card';
 import { cloneTemplate } from './utils/utils';
-import { IOrderForm, IProductItem, IProductList } from './types';
+import { IOrder, IOrderForm, IProductItem, IProductList } from './types';
 import { Modal } from './components/common/Modal';
 import { Basket } from './components/common/Basket';
 import { Order } from './components/common/Order';
@@ -17,7 +17,6 @@ import { SuccessOrder } from './components/common/SuccessOrder';
 //Поиск нужных элементов
 const container = document.querySelector('.page');
 const modalContainer = document.querySelector('#modal-container'); 
-const cardBasket = document.querySelector('#card-basket');
 
 //Добавление наследников основных классов
 const events = new EventEmitter();
@@ -166,4 +165,29 @@ events.on('order:submit', ()=>{
       errors: []
     })
   })
+})
+
+//включение валидации формы контактов
+events.on('order:ready', (order: IOrder)=>{
+  contactsForm.valid = true;
+})
+
+//Вызов заключительного экрана
+events.on('contacts:submit', ()=>{
+  console.log(model.order)
+  api.postOrder(model.order)
+    .then((data)=>{
+      const successDisplay = new SuccessOrder(cloneTemplate('#success'), {
+        func: ()=>{
+          modal.close();
+          model.clearBasket()
+        }
+      })
+      modal.render({
+        data: successDisplay.render(data)
+      })
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
 })
