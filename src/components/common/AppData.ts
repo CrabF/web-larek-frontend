@@ -3,21 +3,7 @@ import { IEvents } from "../base/events";
 
 type IFormErrors = Partial<Record<keyof IOrderForm, string>>
 
-interface IAppData {
-  getCards(): IProductItem[];
-  setCards(items: IProductItem[]): void;
-  setItemPreview(card: IProductItem): void;
-  getTotal(): number;
-  inBasket(card: IProductItem): boolean;
-  addToBasket(card: IProductItem): void;
-  removeFromBasket(card: IProductItem): void;
-  clearBasket(): void;
-  changePayment(value: Payment): void;
-  setFieldValue(field: keyof IOrderForm, value: string): void;
-  validateOrder(): boolean
-}
-
-export class AppData implements IAppData{
+export class AppData {
   protected items: IProductItem[]=[];
   order: IOrder = {
     address: '',
