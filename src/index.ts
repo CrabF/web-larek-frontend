@@ -44,7 +44,7 @@ events.on('cards:changed', (items: IProductItem[])=>{
   const cardsArray = items
   .map((item)=>{
     const card = new Card(cloneTemplate('#card-catalog'), {
-      func: ()=>{
+      onClick: ()=>{
         events.emit('card:selected', item); 
       }
     });
@@ -66,7 +66,7 @@ events.on('card:selected', (item: IProductItem)=>{
 //Открытие превью карточки, если она была выбрана
 events.on('preview:changed', (item: IProductItem)=>{
   const card = new Card(cloneTemplate('#card-preview'), {
-    func: ()=>{
+    onClick: ()=>{
       if(item.price != null) {
         if(model.inBasket(item)){
           model.removeFromBasket(item);
@@ -108,14 +108,16 @@ events.on('basket:open', ()=>{
 //Содержиоме корзины поменялось
 events.on('basket:changed', (itemList: IProductList)=>{
   page.counter = model.getTotal();
-  const cardsArray = itemList.items.map((item)=>{
+  const cardsArray = itemList.items.map((item, index)=>{
     const card = new Card((cloneTemplate('#card-basket')), {
-      func: ()=>{
+      onClick: ()=>{
         model.removeFromBasket(item);
       }
     });
+    card.index = index + 1;
     return card.render(item)
   })
+  
   basket.items = cardsArray;
   basket.total = itemList.total;
 })
@@ -183,7 +185,7 @@ events.on('contacts:submit', ()=>{
     .then((data)=>{
       model.clearBasket()
       const successDisplay = new SuccessOrder(cloneTemplate('#success'), {
-        func: ()=>{
+        onClick: ()=>{
           modal.close();
         }
       })

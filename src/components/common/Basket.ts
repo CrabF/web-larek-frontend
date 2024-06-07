@@ -37,8 +37,8 @@ export class Basket extends Component<IBasket> {
       }))
       this.basketButton.setAttribute('disabled', '')
     }
-
   }
+
   set total(value: number){
     this.setText(this.basketPrice, `${value} синапсов`)
   }

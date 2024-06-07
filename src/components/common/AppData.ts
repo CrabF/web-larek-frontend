@@ -1,4 +1,4 @@
-import { IOrder, IOrderForm, IOrderSuccess, IProductItem, IProductList, Payment } from "../../types";
+import { IOrder, IOrderForm, IProductItem, IProductList, Payment } from "../../types";
 import { IEvents } from "../base/events";
 
 type IFormErrors = Partial<Record<keyof IOrderForm, string>>
@@ -73,11 +73,11 @@ export class AppData {
     this.events.emit('basket:changed', this.basket);
   }
 
-  changePayment(value: Payment){
+  changePayment(value: Payment): void{
     this.order.payment = value;
   }
 
-  setFieldValue(field: keyof IOrderForm, value: string){
+  setFieldValue(field: keyof IOrderForm, value: string): void{
     if(field === 'payment'){
       this.changePayment(value as Payment)
     } else {
@@ -91,7 +91,7 @@ export class AppData {
     }
   }
 
-  validateOrder() {
+  validateOrder(): boolean {
     const errors: typeof this.formErrors = {};
 
     if(!this.order.payment){

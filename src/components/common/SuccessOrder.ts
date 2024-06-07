@@ -6,7 +6,7 @@ interface ISuccessOrder {
 }
 
 interface ICloseModal {
-  func: ()=> void
+  onClick: ()=> void
 }
 
 export class SuccessOrder extends Component<ISuccessOrder>{
@@ -19,8 +19,8 @@ export class SuccessOrder extends Component<ISuccessOrder>{
     this.successDescription = ensureElement<HTMLElement>('.order-success__description', container);
     this.closeButton = ensureElement<HTMLButtonElement>('.order-success__close', container);
 
-    if(action?.func){
-      this.closeButton.addEventListener('click', action.func)
+    if(action?.onClick){
+      this.closeButton.addEventListener('click', action.onClick)
     }
   }
 

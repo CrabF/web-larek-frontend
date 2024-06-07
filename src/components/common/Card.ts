@@ -3,7 +3,7 @@ import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 
 interface IOpenPrewiev {
-  func: (event: MouseEvent)=> void;
+  onClick: (event: MouseEvent)=> void;
 }
 
 export class Card extends Component<IProductItem>  {
@@ -14,7 +14,7 @@ export class Card extends Component<IProductItem>  {
   protected cardCategory?: HTMLElement;
   protected cardPrice: HTMLElement;
   protected cardButton?: HTMLButtonElement;
-  protected cardId: string;
+  protected cardIndex?: HTMLElement;
 
   constructor(container: HTMLElement, action?: IOpenPrewiev){
     super(container);
@@ -26,11 +26,12 @@ export class Card extends Component<IProductItem>  {
     this.cardPrice = ensureElement<HTMLElement>('.card__price', container);
     this.cardButton = container.querySelector('.card__button');
     this.cardImage = container.querySelector('.card__image');
+    this.cardIndex = container.querySelector('.basket__item-index');
 
-    if(action?.func && this.button){
-      this.cardButton.addEventListener('click', action.func)
+    if(action?.onClick && this.button){
+      this.cardButton.addEventListener('click', action.onClick)
     } else {
-      this.container.addEventListener('click', action.func);
+      this.container.addEventListener('click', action.onClick);
     }
   }
   
@@ -40,6 +41,10 @@ export class Card extends Component<IProductItem>  {
 
   set image(img: string){
     this.setImage(this.cardImage, img, img)
+  }
+
+  set index(value: number){
+    this.setText(this.cardIndex, value)
   }
 
   get title(): string{
@@ -86,8 +91,4 @@ export class Card extends Component<IProductItem>  {
   set button(text: string){
     this.setText(this.cardButton, text)
   }
-
-  set id(id: string){
-    this.cardId = id
-  } 
 }
