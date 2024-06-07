@@ -27,7 +27,6 @@ const api = new LarekApi(Api, Content);
 const basket = new Basket(cloneTemplate('#basket'), events);
 const orderForm = new Order(cloneTemplate('#order'), events);
 const contactsForm = new Contacts(cloneTemplate('#contacts'), events);
-// const successDisplay = new SuccessOrder(cloneTemplate('#contacts'), events);
 
 
 //Получение массива с сервера
@@ -68,12 +67,16 @@ events.on('card:selected', (item: IProductItem)=>{
 events.on('preview:changed', (item: IProductItem)=>{
   const card = new Card(cloneTemplate('#card-preview'), {
     func: ()=>{
-      if(model.inBasket(item)){
-        model.removeFromBasket(item);
-        card.button = 'В корзину'
+      if(item.price != null) {
+        if(model.inBasket(item)){
+          model.removeFromBasket(item);
+          card.button = 'В корзину'
+        } else {
+          model.addToBasket(item);
+          card.button = 'Удалить из корзины'
+        }
       } else {
-        model.addToBasket(item);
-        card.button = 'Удалить из корзины'
+        card.hideButton(item.price)
       }
     }
   })

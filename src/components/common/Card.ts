@@ -70,8 +70,17 @@ export class Card extends Component<IProductItem>  {
     }
   }
 
-  set price(value: number){
+  set price(value: number | null){
     this.setText(this.cardPrice, (value) ? `${value}  синапсов`: 'Бесценно')
+    this.hideButton(value)
+  }
+
+  hideButton(value: number | null){
+    if(value === null){ 
+      if(this.cardButton){
+        this.cardButton.remove()
+      } 
+    }
   }
 
   set button(text: string){
