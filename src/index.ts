@@ -49,6 +49,7 @@ events.on('cards:changed', (items: IProductItem[])=>{
         events.emit('card:selected', item); 
       }
     });
+    card.categoryClass = item.category
     return card.render(item)
   })
 //Рендер страницы с информацией с сервера
@@ -76,6 +77,7 @@ events.on('preview:changed', (item: IProductItem)=>{
       }
     }
   })
+  card.categoryClass = item.category
   card.button = model.inBasket(item)? 'Удалить из корзины':'В корзину';
 //Рендерим модалку, а внутрь передаем элемент карточки - зарендерив его 
   modal.render({

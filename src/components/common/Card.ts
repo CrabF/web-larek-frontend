@@ -52,10 +52,22 @@ export class Card extends Component<IProductItem>  {
 
   set category(text: string){
     this.setText(this.cardCategory, text);
-    // switch (text){
-    //   case text === 'другое':
-    //   this.toggleClass(this.cardCategory, this.selectorCategory, '.card__category_other')
-    // }
+  }
+
+  set categoryClass(categoryClassName: string){
+    const secondClass = this.cardCategory.classList[1]
+    switch (categoryClassName){
+      case 'хард-скил': this.cardCategory.classList.replace(secondClass, 'card__category_hard')
+        break
+      case 'другое': this.cardCategory.classList.replace(secondClass, 'card__category_other')
+        break
+      case 'дополнительное': this.cardCategory.classList.replace(secondClass, 'card__category_additional')
+        break
+      case 'кнопка': this.cardCategory.classList.replace(secondClass, 'card__category_button')
+        break
+      case 'софт-скил': this.cardCategory.classList.replace(secondClass, 'card__category_soft')
+        break
+    }
   }
 
   set price(value: number){
