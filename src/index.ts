@@ -179,13 +179,12 @@ events.on('order:ready', (order: IOrder)=>{
 
 //Вызов заключительного экрана
 events.on('contacts:submit', ()=>{
-  console.log(model.order)
   api.postOrder(model.order)
     .then((data)=>{
+      model.clearBasket()
       const successDisplay = new SuccessOrder(cloneTemplate('#success'), {
         func: ()=>{
           modal.close();
-          model.clearBasket()
         }
       })
       modal.render({
